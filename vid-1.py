@@ -7,9 +7,9 @@ import os, sys
 import redis
 import simplejson as json
 
-r=redis.Redis(host='35.189.168.118',port=6379,db=0)
+r=redis.Redis(host='35.189.168.118',port=6379,db=0) #change the host depending on the ip address from the cloud
 
-cap = cv2.VideoCapture('countdown.mp4')
+cap = cv2.VideoCapture('countdown.mp4') #sample video file
 if (cap.isOpened() == False): 
   print("Unable to read camera feed")
 #frame_width = int(cap.get(3))
