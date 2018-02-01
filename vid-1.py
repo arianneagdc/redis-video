@@ -7,9 +7,10 @@ import os, sys
 import redis
 import simplejson as json
 
-r=redis.Redis(host='35.189.168.118',port=6379,db=0) #change the host depending on the ip address from the cloud
+r=redis.Redis(host='130.211.248.50',port=6379,db=0)
 
-cap = cv2.VideoCapture('countdown.mp4') #sample video file
+#cap = cv2.VideoCapture('countdown.mp4')
+cap = cv2.VideoCapture("rtsp://admin:@192.168.1.193/h264Preview_01_main")
 if (cap.isOpened() == False): 
   print("Unable to read camera feed")
 #frame_width = int(cap.get(3))
@@ -18,19 +19,20 @@ ret, frame = cap.read()
 frame_height,frame_width,x = frame.shape
 print(frame)
 print(frame.shape)
-
-out = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
+count=0
+out = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','P','4','2'), 10, (frame_width,frame_height))
 adc1=r.set('fam', json.dumps(frame.tolist()))
 while(True):
   ret, frame = cap.read()
   if ret == True: 
     print(frame)
-    lo=r.rpush('red_frame',*frame)
+    lo=r.lset('red_frame', count, json.dumps(frame.tolist()))
     print(type(lo))
     print(lo)
     out.write(frame)  
     cv2.imshow('frame',frame)
     print(frame.dtype)
+    count=count+1
     #f1=json.dumps(frame.tolist())
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
