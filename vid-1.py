@@ -7,7 +7,7 @@ import os, sys
 import redis
 import simplejson as json
 
-r=redis.Redis(host='130.211.248.50',port=6379,db=0)
+r=redis.Redis(host='130.211.248.50',port=6379,db=0) #change depending on the ip address
 
 #cap = cv2.VideoCapture('countdown.mp4')
 cap = cv2.VideoCapture("rtsp://admin:@192.168.1.193/h264Preview_01_main")
